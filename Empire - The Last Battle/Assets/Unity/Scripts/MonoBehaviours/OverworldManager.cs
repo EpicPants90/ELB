@@ -105,41 +105,38 @@ public class OverworldManager : MonoBehaviour
 			{
 				_BattlebeardPlayer.SetCards(_StartCards);
 				_StormshaperPlayer.SetCards(_StartCards);
+                _BattlebeardPlayer.CastleProgress = 4;
+                _StormshaperPlayer.CastleProgress = 3;
 
 				// add some start units
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
 				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
 				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Ballista);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Pikeman);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Ballista);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Pikeman);
 
 				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Cavalry);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Cavalry);
 
 			}
 			else
 			{
 				_BattlebeardPlayer.SetCards(_StartCardsEditor);
-				_StormshaperPlayer.SetCards(_StartCardsEditor);
+                _StormshaperPlayer.SetCards(_StartCardsEditor);
+                _BattlebeardPlayer.CastleProgress = 4;
+                _StormshaperPlayer.CastleProgress = 3;
 
 				// add some start units
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Archer);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.AxeThrower);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Ballista);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Catapult);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Cavalry);
-				_BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Pikeman);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Ballista);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Pikeman);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Warrior);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Ballista);
+                _BattlebeardPlayer.PlayerArmy.AddUnit(UnitType.Pikeman);
 
 				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Scout);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Cavalry);
-				_StormshaperPlayer.PlayerArmy.AddUnit(UnitType.Cavalry);
 
 			}
 
@@ -149,8 +146,8 @@ public class OverworldManager : MonoBehaviour
 			setPlayer(PlayerType.Battlebeard);
 			
 
-			_BattlebeardPlayer.CastleProgress = 0;
-			_StormshaperPlayer.CastleProgress = 0;
+			//_BattlebeardPlayer.CastleProgress = 0;
+			//_StormshaperPlayer.CastleProgress = 0;
 
 			_TurnManager.StartTurn();
 		}
@@ -750,9 +747,12 @@ public class OverworldManager : MonoBehaviour
 	void EndGame(Player player)
 	{
 		ModalPanel p = ModalPanel.Instance();
-		_OverworldUI.Disable();
-		_BattleData._EndState = BattleEndState.None;
-		StartCoroutine(SceneSwitcher.ChangeScene ("StartMenu"));
+        p.ShowOK("Enemy Defeated", "You defeated the enemy and took back Nekark for the " + player.Type, () =>
+        {
+            _OverworldUI.Disable();
+            _BattleData._EndState = BattleEndState.None;
+            StartCoroutine(SceneSwitcher.ChangeScene("StartMenu"));
+        });
 	}
 	
 	void _CardSystem_RequestBattle(CardData card, EndCardAction done)
